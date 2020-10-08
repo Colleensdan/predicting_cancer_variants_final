@@ -1,0 +1,54 @@
+# when setting up for the first time, change the root of the file names in the logging section below
+downloader:
+    minimum_samples_per_study: 5    # leave empty if no minimum
+    maximum_samples_per_study: 10   # leave empty if no maximum
+    urls:
+        study: http://www.cbioportal.org/api/studies?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        gene: https://www.cbioportal.org/api/genes?projection=SUMMARY&pageSize=100000&pageNumber=1&direction=ASC
+        cancer: http://www.cbioportal.org/api/cancer-types?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        molecular: http://www.cbioportal.org/api/studies/{}/molecular-profiles?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        mutation: https://www.cbioportal.org/api/molecular-profiles/{}_mutations/mutations?sampleListId={}_all&projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+
+prepare_machine_learning_model:
+    table_names:
+        staging: test_prepare_gene_mutations
+        patient: test_prepare_patients
+        net: test_prepare_net_data
+
+common:
+    database_location: Test Databases\test_database.db
+    table_names:
+        study: test_import_studies
+        cancer: test_import_cancers
+        molecular: test_import_molecular_profiles
+        mutation: test_import_mutations
+        gene: test_import_genes
+    logging:
+        version: 1
+        formatters:
+            simple:
+                format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        handlers:
+            console:
+                class: logging.StreamHandler
+                level: ERROR # only show errors on the console
+                formatter: simple
+                stream: ext://sys.stdout
+            file_handler:
+                class: logging.handlers.RotatingFileHandler
+                level: DEBUG # trace all debug level messages to a log file
+                formatter: simple
+                # change the root of the filename below
+                filename: C:\Users\Colle\OneDrive\Documents\Code\PythonSamples-master\NEA\predicting_cancer_variants\Test Log Files\test_predicting_cancer_variants.log
+                maxBytes: 10485760 # 10MB
+                backupCount: 20
+                encoding: utf8
+        loggers:
+            predicting_cancer_variants:
+                level: INFO
+                handlers: [console, file_handler]
+                propagate: no
+        root:
+            level: NOTSET
+            handlers: [console, file_handler]
+

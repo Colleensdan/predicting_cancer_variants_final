@@ -1,0 +1,2 @@
+common:
+    database_location: 'test_folder\test_file.db'

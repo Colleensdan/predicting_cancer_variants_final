@@ -1,0 +1,4 @@
+common:
+    database_location: 'c:\a-test\location\file.yaml'
+    tables_names:
+      study: test_cancer_study

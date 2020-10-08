@@ -1,0 +1,70 @@
+# when setting up for the first time, change the root of the file names in the logging section below
+downloader:
+    minimum_samples_per_study: 250   # leave empty if no minimum
+    maximum_samples_per_study:       # leave empty if no maximum
+    urls:
+        study: http://www.cbioportal.org/api/studies?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        gene: https://www.cbioportal.org/api/genes?projection=SUMMARY&pageSize=100000&pageNumber=1&direction=ASC
+        cancer: http://www.cbioportal.org/api/cancer-types?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        molecular: http://www.cbioportal.org/api/studies/{}/molecular-profiles?projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+        mutation: https://www.cbioportal.org/api/molecular-profiles/{}_mutations/mutations?sampleListId={}_all&projection=SUMMARY&pageSize=10000000&pageNumber=0&direction=ASC
+
+prepare_machine_learning_model:
+    table_names:
+        staging: prepare_gene_mutations
+        patient: prepare_patients
+        net: prepare_net_data
+
+train_machine_learning_model:
+    todo: 'abc'
+
+serve_machine_learning_model:
+    todo: 'xyz'
+
+common:
+    database_location: Databases\predicting_cancer_variants.db
+    table_names:
+        study: import_cancer_study
+        cancer: import_cancer_reference
+        molecular: import_molecular_profile
+        mutation: import_mutations
+        gene: import_gene_reference
+    logging:
+        version: 1
+        formatters:
+            simple:
+                format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        handlers:
+            console:
+                class: logging.StreamHandler
+                level: INFO
+                formatter: simple
+                stream: ext://sys.stdout
+            info_file_handler:
+                class: logging.handlers.RotatingFileHandler
+                level: INFO
+                formatter: simple
+                # change the root of the filename below
+                filename: C:\Users\Colle\OneDrive\Documents\Code\PythonSamples-master\NEA\predicting_cancer_variants\Log Files\predicting_cancer_variants_all.log
+                maxBytes: 10485760 # 10MB
+                backupCount: 20
+                encoding: utf8
+            error_file_handler:
+                class: logging.handlers.RotatingFileHandler
+                level: ERROR
+                formatter: simple
+                # change the root of the filename below
+                filename: C:\Users\Colle\OneDrive\Documents\Code\PythonSamples-master\NEA\predicting_cancer_variants\Log Files\predicting_cancer_variants_errors.log
+                maxBytes: 10485760 # 10MB
+                backupCount: 20
+                encoding: utf8
+        loggers:
+            predicting_cancer_variants:
+                level: INFO
+                handlers: [console, info_file_handler, error_file_handler]
+                propagate: no
+        root:
+            level: NOTSET
+            handlers: [console, info_file_handler, error_file_handler]
+
+
