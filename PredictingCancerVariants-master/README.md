@@ -1,8 +1,5 @@
 # Predicting Cancer Variants
-## Intro
-Blah
-## Details
-Blah Rhubabrb Custard
+
 ## First Time Setup
 After cloning for the first time, the following setup is needed:
 1. Python 3.6 is needed for the downloader. Python 3.8 can generate a MemoryError when downloading big datasets from cBioPortal.org
